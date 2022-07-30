@@ -1,0 +1,548 @@
+using System;
+
+namespace Battaglia_Navale_2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(" Benvenuto al gioco della Battaglia Navale");
+            Console.WriteLine();
+            Console.WriteLine();
+            //Console.WriteLine("Inserisci il nome del Primo giocatore!");
+            string Giocatore1 = "Giocatore 1";//Console.ReadLine();
+            //Console.WriteLine("Inserisci il nome del Secondo giocatore!");
+            string Giocatore2 = "Giocatore 2";//Console.ReadLine();
+            int a = 0;
+            int ToccaA = 0;
+            int CordX = 0;
+            int CordY = 0;
+            string[,] GrigliaG1Att = new string[10, 10];
+            string[,] GrigliaG1Dif = new string[10, 10];
+            string[,] GrigliaG2Att = new string[10, 10];
+            string[,] GrigliaG2Dif = new string[10, 10];
+            for (CordX = 0; CordX < 10; CordX++)
+            {
+                for (CordY = 0; CordY < 10; CordY++)
+                {
+                    GrigliaG1Att[CordX, CordY] = ("  ");
+                    GrigliaG1Dif[CordX, CordY] = ("  ");
+                    GrigliaG2Att[CordX, CordY] = ("  ");
+                    GrigliaG2Dif[CordX, CordY] = ("  ");
+                }
+            }
+            CordX = 0;
+            CordY = -1;
+            while (a < 1)
+            {
+                if (ToccaA == 0)
+                {
+                    Console.Clear();
+                    StampaGrigliaG1Att(GrigliaG1Att, Giocatore1, CordX, CordY);  // Griglia Giocatore1 Attacco
+                    StampaGrigliaG1Dif(GrigliaG1Dif, Giocatore1, CordX, CordY);
+                    ToccaA = 1;
+                    Console.ReadKey();
+                    Console.WriteLine("Devi inserire la prima Flotta, la Portaerei da 5 Caselle");
+                    Console.WriteLine("Dove la vuoi inserire?(digita le cordinate Es. A1)");
+                    string InsFlotta = Console.ReadLine();
+                    Console.WriteLine("La flotta la vuoi mettere in orizzontale 'O' o in Verticale 'V' ?");
+                    string VersoFlotta = Console.ReadLine();
+                    if (VersoFlotta == "O")
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            GrigliaG1Dif[0, i] = "[]";
+                        }
+                    }
+                    else if (VersoFlotta == "V")
+                    {
+
+                    }
+
+                    int CordAscisse = 0;
+                    int CordOrdinata = 0;
+                    ConvertiCordinate(GrigliaG1Dif, InsFlotta, CordAscisse, CordOrdinata);
+
+
+
+
+
+
+
+
+                }
+                else if (ToccaA == 1)
+                {
+                    //Console.Clear();
+                    StampaGrigliaG2Att(GrigliaG2Att, Giocatore2, CordX, CordY);
+                    StampaGrigliaG2Dif(GrigliaG2Dif, Giocatore2, CordX, CordY);
+                    ToccaA = 0;
+                    Console.ReadKey();
+                }
+            }
+        }
+        static void StampaGrigliaG1Att(string[,] GrigliaG1Att, string Giocatore1, int CordX, int CordY)
+        {
+            string Alfab = "ABCDEFGHIL";
+            int lettera = 0;
+            //Console.Clear();                                            // Griglia Giocatore1 Attacco
+            Console.WriteLine(" Griglia " + Giocatore1 + " Attacco");
+            Console.WriteLine();
+            Console.WriteLine();
+            for (int i = 0; i < 21; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j < 19)
+                            {
+                                Console.Write("--");
+                            }
+                            else if (j == 21)
+                            {
+                                Console.Write("-");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    CordY++;
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j % 2 == 0)
+                            {
+                                Console.Write("|");
+                            }
+                            else if (j < 24)
+                            {
+                                Console.Write(GrigliaG1Att[CordX, CordY]);
+                                CordX++;
+                            }
+                        }
+                        if (j == 25)
+                        {
+                            Console.Write(" " + ((i / 2) - 10) * -1);
+                        }
+                    }
+                }
+                CordX = 0;
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            for (int j = 0; j < (24); j++)
+            {
+                if (j < 4)
+                {
+                    Console.Write("  ");
+                }
+                else
+                {
+                    if (j % 2 == 0)
+                    {
+                        Console.Write(" ");
+                    }
+                    else
+                    {
+                        Console.Write(Alfab[lettera] + " ");
+                        lettera++;
+                    }
+                }
+            }
+            lettera = 0;
+            CordY = -1;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("________________________________________________________________________________");
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+        static void StampaGrigliaG1Dif(string[,] GrigliaG1Dif, string Giocatore1, int CordX, int CordY)
+        {
+            string Alfab = "ABCDEFGHIL";
+            int lettera = 0;
+            Console.WriteLine(" Griglia " + Giocatore1 + " Difesa");     // Griglia Giocatore1 Difesa
+            Console.WriteLine();
+            Console.WriteLine();
+            for (int i = 0; i < 21; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j < 19)
+                            {
+                                Console.Write("--");
+                            }
+                            else if (j == 21)
+                            {
+                                Console.Write("-");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    CordY++;
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j % 2 == 0)
+                            {
+                                Console.Write("|");
+                            }
+                            else if (j < 24)
+                            {
+                                Console.Write(GrigliaG1Dif[CordX, CordY]);
+                                CordX++;
+                            }
+                        }
+                        if (j == 25)
+                        {
+                            Console.Write(" " + ((i / 2) - 10) * -1);
+                        }
+                    }
+                }
+                CordX = 0;
+
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            for (int j = 0; j < (24); j++)
+            {
+                if (j < 4)
+                {
+                    Console.Write("  ");
+                }
+                else
+                {
+                    if (j % 2 == 0)
+                    {
+                        Console.Write(" ");
+                    }
+                    else
+                    {
+                        Console.Write(Alfab[lettera] + " ");
+                        lettera++;
+                    }
+                }
+            }
+            lettera = 0;
+            CordY = -1;
+        }
+        static void StampaGrigliaG2Att(string[,] GrigliaG2Att, string Giocatore2, int CordX, int CordY)
+        {
+            string Alfab = "ABCDEFGHIL";
+            int lettera = 0;
+            //Console.Clear();                                            // Griglia Giocatore2 Attacco
+            Console.WriteLine(" Griglia " + Giocatore2 + " Attacco");
+            Console.WriteLine();
+            Console.WriteLine();
+            for (int i = 0; i < 21; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j < 19)
+                            {
+                                Console.Write("--");
+                            }
+                            else if (j == 21)
+                            {
+                                Console.Write("-");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    CordY++;
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j % 2 == 0)
+                            {
+                                Console.Write("|");
+                            }
+                            else if (j < 24)
+                            {
+                                Console.Write(GrigliaG2Att[CordX, CordY]);
+                                CordX++;
+                            }
+                        }
+                        if (j == 25)
+                        {
+                            Console.Write(" " + ((i / 2) - 10) * -1);
+                        }
+                    }
+                }
+                CordX = 0;
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            for (int j = 0; j < (24); j++)
+            {
+                if (j < 4)
+                {
+                    Console.Write("  ");
+                }
+                else
+                {
+                    if (j % 2 == 0)
+                    {
+                        Console.Write(" ");
+                    }
+                    else
+                    {
+                        Console.Write(Alfab[lettera] + " ");
+                        lettera++;
+                    }
+                }
+            }
+            lettera = 0;
+            CordY = -1;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("________________________________________________________________________________");
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+        static void StampaGrigliaG2Dif(string[,] GrigliaG2Dif, string Giocatore2, int CordX, int CordY)
+        {
+            string Alfab = "ABCDEFGHIL";
+            int lettera = 0;
+            Console.WriteLine(" Griglia " + Giocatore2 + " Difesa");            // Griglia Giocatore2 Difesa
+            Console.WriteLine();
+            Console.WriteLine();
+            for (int i = 0; i < 21; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j < 19)
+                            {
+                                Console.Write("--");
+                            }
+                            else if (j == 21)
+                            {
+                                Console.Write("-");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    CordY++;
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if (j < 4)
+                        {
+                            Console.Write("  ");
+                        }
+                        else
+                        {
+                            if (j % 2 == 0)
+                            {
+                                Console.Write("|");
+                            }
+                            else if (j < 24)
+                            {
+                                Console.Write(GrigliaG2Dif[CordX, CordY]);
+                                CordX++;
+                            }
+                        }
+                        if (j == 25)
+                        {
+                            Console.Write(" " + ((i / 2) - 10) * -1);
+                        }
+                    }
+                }
+                CordX = 0;
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            for (int j = 0; j < (24); j++)
+            {
+                if (j < 4)
+                {
+                    Console.Write("  ");
+                }
+                else
+                {
+                    if (j % 2 == 0)
+                    {
+                        Console.Write(" ");
+                    }
+                    else
+                    {
+                        Console.Write(Alfab[lettera] + " ");
+                        lettera++;
+                    }
+                }
+            }
+            lettera = 0;
+            CordY = -1;
+        }
+        static void ConvertiCordinate(string[,] GrigliaG1Dif, string InsFlotta, int CordAscisse, int CordOrdinata)
+        {
+            if (InsFlotta[0] == 'A')
+            {
+                CordAscisse = 0;
+            }
+            else if (InsFlotta[0] == 'B')
+            {
+                CordAscisse = 1;
+            }
+            else if (InsFlotta[0] == 'C')
+            {
+                CordAscisse = 2;
+            }
+            else if (InsFlotta[0] == 'D')
+            {
+                CordAscisse = 3;
+            }
+            else if (InsFlotta[0] == 'E')
+            {
+                CordAscisse = 4;
+            }
+            else if (InsFlotta[0] == 'F')
+            {
+                CordAscisse = 5;
+            }
+            else if (InsFlotta[0] == 'G')
+            {
+                CordAscisse = 6;
+            }
+            else if (InsFlotta[0] == 'H')
+            {
+                CordAscisse = 7;
+            }
+            else if (InsFlotta[0] == 'I')
+            {
+                CordAscisse = 8;
+            }
+            else if (InsFlotta[0] == 'L')
+            {
+                CordAscisse = 9;
+            }
+            if (InsFlotta.Length == 3)
+            {
+                CordOrdinata = 0;
+            }
+            else if (InsFlotta[1] == '1')
+            {
+                CordOrdinata = 9;
+            }
+            else if (InsFlotta[1] == '2')
+            {
+                CordOrdinata = 8;
+            }
+            else if (InsFlotta[1] == '3')
+            {
+                CordOrdinata = 7;
+            }
+            else if (InsFlotta[1] == '4')
+            {
+                CordOrdinata = 6;
+            }
+            else if (InsFlotta[1] == '5')
+            {
+                CordOrdinata = 5;
+            }
+            else if (InsFlotta[1] == '6')
+            {
+                CordOrdinata = 4;
+            }
+            else if (InsFlotta[1] == '7')
+            {
+                CordOrdinata = 3;
+            }
+            else if (InsFlotta[1] == '8')
+            {
+                CordOrdinata = 2;
+            }
+            else if (InsFlotta[1] == '9')
+            {
+                CordOrdinata = 1;
+            }
+            GrigliaG1Dif[CordAscisse, CordOrdinata] = "[]";
+            Console.ReadKey();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+}
+
+
+
